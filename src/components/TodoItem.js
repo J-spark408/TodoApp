@@ -4,22 +4,58 @@ const TodoItem = (props) => {
   const [toggleButton, setToggleButton] = useState(false);
   const [crossedOff, setCrossedOff] = useState(false);
   const [todoUndo, setTodoUndo] = useState(false);
-  //const [editTodo, setEditTodo] = useState(props.text);
-  //const [todoValue, setTodoValue] = useState("");
+  const [editTodo, setEditTodo] = useState(props.text);
+  const [isEditting, setIsEditting] = useState(false);
+  //const [newTodo, setNewTodo] = useState("");
 
   return (
     <li
       onClick={() => {
-        setToggleButton(!toggleButton);
+        setEditTodo(props.text);
+        {
+          isEditting ? undefined : setToggleButton(!toggleButton);
+        }
       }}
     >
-      <p
-        style={{
-          textDecoration: crossedOff ? "line-through" : "none",
-        }}
-      >
-        {props.text}
-      </p>
+      {isEditting ? (
+        <>
+          <input
+            value={editTodo}
+            onChange={(e) => {
+              setEditTodo(e.target.value);
+            }}
+          ></input>
+          <button
+            onClick={() => {
+              if (editTodo.length === 0) {
+                alert("Text is empty");
+                return false;
+              } else {
+                props.onEdit(props.id, editTodo);
+                setIsEditting(false);
+              }
+            }}
+          >
+            Update
+          </button>
+          <button
+            onClick={() => {
+              setIsEditting(false);
+              setEditTodo(props.text);
+            }}
+          >
+            Cancel
+          </button>
+        </>
+      ) : (
+        <p
+          style={{
+            textDecoration: crossedOff ? "line-through" : "none",
+          }}
+        >
+          {props.text}
+        </p>
+      )}
       {toggleButton ? (
         <button
           onClick={(e) => {
@@ -31,13 +67,19 @@ const TodoItem = (props) => {
           {todoUndo ? "Undo" : "Done"}
         </button>
       ) : undefined}
-      {toggleButton && !crossedOff ? <button>Edit</button> : undefined}
+      {toggleButton && !crossedOff ? (
+        <button
+          onClick={() => {
+            setIsEditting(true);
+          }}
+        >
+          Edit
+        </button>
+      ) : undefined}
       {toggleButton ? (
         <button
-          onClick={(e) => {
-            {
-              props.listOfTodos.splice(props.todoIndex, 1);
-            }
+          onClick={() => {
+            props.onDelete(props.id);
           }}
         >
           Delete

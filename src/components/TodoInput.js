@@ -13,9 +13,14 @@ const TodoInput = (props) => {
       />
       <button
         onClick={() => {
-          const updatedListOfTodos = [...props.listOfTodos, textInput];
-          props.setListOfTodos(updatedListOfTodos);
-          setTextInput("");
+          if (textInput.length === 0) {
+            alert("Text is empty");
+            return false;
+          } else {
+            const updatedListOfTodos = [...props.listOfTodos, textInput];
+            props.setListOfTodos(updatedListOfTodos);
+            setTextInput("");
+          }
         }}
       >
         Add
