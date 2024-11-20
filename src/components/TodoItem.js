@@ -14,6 +14,22 @@ const Button = styled.button`
   }
 `;
 
+const PriorButton = styled.button`
+  float: right;
+  margin-right: 2px;
+  margin-top: 2px;
+  background: lightsteelblue;
+  &.star {
+    width: 30px;
+    aspect-ratio: 1;
+    clip-path: polygon(50% 0, 79% 90%, 2% 35%, 98% 35%, 21% 90%);
+  }
+  &:hover {
+    background: gold;
+    cursor: pointer;
+  }
+`;
+
 const ListItem = styled.li`
   line-height: 2em;
   box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
@@ -77,7 +93,15 @@ const TodoItem = (props) => {
     }
   };
 
-  console.log("activeItemId -->", props.activeItemId);
+  const todoUpdate = () => {
+    if (editTodo.length === 0) {
+      alert("Text is empty");
+      return false;
+    } else {
+      props.onEdit(props.id, editTodo);
+      setIsEditting(false);
+    }
+  };
 
   return (
     <ListItem
@@ -85,31 +109,25 @@ const TodoItem = (props) => {
         props.setActiveItemId(props.id);
         setEditTodo(props.text);
         handleToggle();
-        console.log(props.activeItemId);
-        console.log(props.id);
-        // {
-        //   isEditting ? undefined : setToggleButton(!toggleButton);
-        // }
       }}
     >
-      {isEditting ? (
+      {isEditting && isActive ? (
         <>
           <EditInput
             value={editTodo}
             onChange={(e) => {
               setEditTodo(e.target.value);
             }}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                todoUpdate();
+              }
+            }}
           ></EditInput>
           <div>
             <Button
               onClick={() => {
-                if (editTodo.length === 0) {
-                  alert("Text is empty");
-                  return false;
-                } else {
-                  props.onEdit(props.id, editTodo);
-                  setIsEditting(false);
-                }
+                todoUpdate();
               }}
             >
               Update
@@ -131,6 +149,7 @@ const TodoItem = (props) => {
           }}
         >
           {props.text}
+          <PriorButton className="star"></PriorButton>
         </TodoText>
       )}
       {toggleButton && isActive ? (
@@ -158,6 +177,10 @@ const TodoItem = (props) => {
           onClick={() => {
             console.log("props id:", props.id);
             props.onDelete(props.id);
+            if (crossedOff) {
+              setCrossedOff(false);
+              setTodoUndo(false);
+            }
           }}
         >
           Delete

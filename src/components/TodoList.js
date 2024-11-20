@@ -15,7 +15,6 @@ const TodoList = (props) => {
   //console.log(props.todoArray);
   const handleDelete = (id) => {
     const newTodos = props.todoArray.filter((item, index) => index !== id);
-    console.log("id", id);
     props.setListOfTodos(newTodos);
   };
 

@@ -51,6 +51,24 @@ const TodoInput = (props) => {
   const [textInput, setTextInput] = useState("");
   //const [duplicatedAlert, setDuplicatedAlert] = useState(false);
 
+  const handleAddTodo = () => {
+    if (textInput.length === 0) {
+      alert("Text is empty");
+      return false;
+    } else {
+      props.setTodoAdded(true);
+      const updatedListOfTodos = [...props.listOfTodos, textInput];
+      const filterArray = updatedListOfTodos.filter(
+        (item, index) => updatedListOfTodos.indexOf(item) === index
+      );
+      if (updatedListOfTodos.length !== filterArray.length) {
+        props.setAlert(true);
+      }
+      props.setListOfTodos(filterArray);
+      setTextInput("");
+    }
+  };
+
   return (
     <InputDiv>
       <Input
@@ -60,24 +78,15 @@ const TodoInput = (props) => {
         onChange={(e) => {
           setTextInput(e.target.value);
         }}
+        onKeyDown={(e) => {
+          if (e.key === "Enter") {
+            handleAddTodo();
+          }
+        }}
       />
       <Button
         onClick={() => {
-          if (textInput.length === 0) {
-            alert("Text is empty");
-            return false;
-          } else {
-            props.setTodoAdded(true);
-            const updatedListOfTodos = [...props.listOfTodos, textInput];
-            const filterArray = updatedListOfTodos.filter(
-              (item, index) => updatedListOfTodos.indexOf(item) === index
-            );
-            if (updatedListOfTodos.length !== filterArray.length) {
-              props.setAlert(true);
-            }
-            props.setListOfTodos(filterArray);
-            setTextInput("");
-          }
+          handleAddTodo();
         }}
       >
         Add
