@@ -20,4 +20,25 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    historyApiFallback: true,
+  },
 };
+
+// module.exports = {
+//   module: {
+//     rules: [
+//       { test: /\.(js)$/, use: "babel-loader" },
+//       { test: /\.css$/, use: ["style-loader", "css-loader"] },
+//     ],
+//   },
+//   devServer: {
+//     historyApiFallback: true,
+//   },
+//   plugins: [
+//     new HtmlWebpackPlugin({
+//       template: path.resolve(__dirname, "src/index.html"),
+//       publicPath: "/",
+//     }),
+//   ],
+// };

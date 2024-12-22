@@ -1,40 +1,22 @@
 import React, { useState } from "react";
-import Board from "./Board";
-import styled from "styled-components";
+import { HashRouter, BrowserRouter, Routes, Route } from "react-router-dom";
+import Board from "./TodoBoard/Board";
+import NavHeader from "./navbar/NavHeader";
+import Calender from "./CalendarPage/Calendar";
+import HomePage from "./HomePage/HomePage";
+import DayTodo from "./DayPage/DayDetails";
 
-const BoardDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2em;
-  height: auto;
-`;
-
-const NewBoardDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  margin-top: 2em;
-  height: 80%;
-`;
-// If its new page, set it center
 const App = () => {
-  const [defaultBoard, setDefaultBoard] = useState(false);
-
   return (
-  //  <div>
-  //    {defaultBoard ? (
-        <BoardDiv>
-          <Board setDefaultBoard={setDefaultBoard} />
-        </BoardDiv>
-  //    ) : (
-  //      <NewBoardDiv>
-  //        <Board setDefaultBoard={setDefaultBoard} />
-  //      </NewBoardDiv>
-  //    )}
-  //  </div>
+    <BrowserRouter>
+      <NavHeader />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/12/:id" element={<DayTodo />} />
+        <Route path="/daily" element={<Board />} />
+        <Route path="/calendar" element={<Calender />} />
+      </Routes>
+    </BrowserRouter>
   );
 };
 
