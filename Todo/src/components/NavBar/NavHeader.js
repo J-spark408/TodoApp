@@ -11,15 +11,13 @@ const TopNav = styled.div`
   display: flex;
   flex-direction: column;
   position: fixed;
+  bottom: 0px;
+  left: 0px;
 `;
 
 const NavSelection = styled(Link)`
   color: #f2f2f2;
-  text-align: center;
   padding: 14px 16px;
-  text-decoration: none;
-  font-size: 17px;
-  outline: none;
   &:hover {
     background-color: #ddd;
     color: black;

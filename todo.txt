@@ -1,0 +1,13 @@
+Home Page
+    Sort based on event date 
+        - if duplicate dates, add all events into on date
+        - Edit and Delete handlers
+        - when event isPinned bring it top
+
+Add Event Page
+    Make it prettier
+    Do dates with Year Month Day
+
+Calender:
+    Click on date and be able to see all events for that date
+    Each day that has a event, show a icon to show number of events/notification
