@@ -37,7 +37,7 @@ const DayDetails = () => {
 
   return getEvent.map((event) => (
     <Container>
-      <DayHeader date={event.createdOn} />
+      <DayHeader date={event.createdOn} event={getEvent} />
       <DayInfoHolder
         key={event._id}
         title={event.title}

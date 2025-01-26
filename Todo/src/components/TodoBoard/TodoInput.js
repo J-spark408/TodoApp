@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import TodoDefaultItem from "./TodoDefaultItem";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../utils/axiosInstance";
 import DateHandler from "./DateHandler";
+import moment from "moment";
 
 const Container = styled.div``;
 
@@ -33,7 +34,7 @@ const PlaceLabelDiv = styled.div`
 `;
 
 const Input = styled.input`
-  font-size: 1.5rem;
+  font-size: 0.875rem;
   line-height: 2rem;
   color: rgb(2 6 23 / var(--tw-text-opacity, 1));
   border: none;
@@ -43,6 +44,9 @@ const Input = styled.input`
 const TextArea = styled.textarea`
   font-size: 0.875rem;
   line-height: 1.25rem;
+  max-width: 100%;
+  min-width: 100%;
+  min-height: 56px;
   color: rgb(2 6 23 / var(--tw-text-opacity, 1));
   border: none;
   background-color: rgb(226 232 240 / var(--tw-bg-opacity, 1));
@@ -55,12 +59,12 @@ const ErrorText = styled.p`
 `;
 
 const TodoInput = () => {
+  const currentDate = new Date();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [date, setDate] = useState("");
+  const [date, setDate] = useState(moment(currentDate).format("YYYY-MM-DD"));
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  //const [duplicatedAlert, setDuplicatedAlert] = useState(false);
 
   const handleAddEvent = async (e) => {
     if (!title) {
@@ -69,10 +73,6 @@ const TodoInput = () => {
     }
     if (!content) {
       setError("Fill out the content");
-      return;
-    }
-    if (!date) {
-      setError("Choose a date");
       return;
     }
 
@@ -102,24 +102,6 @@ const TodoInput = () => {
     }
   };
 
-  // const handleAddTodo = () => {
-  //   if (textInput.length === 0) {
-  //     alert("Text is empty");
-  //     return false;
-  //   } else {
-  //     props.setTodoAdded(true);
-  //     const updatedListOfTodos = [...props.listOfTodos, textInput];
-  //     const filterArray = updatedListOfTodos.filter(
-  //       (item, index) => updatedListOfTodos.indexOf(item) === index
-  //     );
-  //     if (updatedListOfTodos.length !== filterArray.length) {
-  //       props.setAlert(true);
-  //     }
-  //     props.setListOfTodos(filterArray);
-  //     setTextInput("");
-  //   }
-  // };
-
   return (
     <Container>
       <PlaceLabelDiv>
@@ -143,7 +125,7 @@ const TodoInput = () => {
       </PlaceLabelDiv>
       <PlaceLabelDiv>
         <PlaceLabel>Choose Date</PlaceLabel>
-        <DateHandler setDate={setDate} />
+        <DateHandler date={date} setDate={setDate} />
       </PlaceLabelDiv>
       {error && <ErrorText>{error}</ErrorText>}
       <Button

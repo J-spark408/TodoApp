@@ -10,11 +10,10 @@ const DayHeaderDiv = styled.div`
   padding: 25px;
 `;
 
-const DayHeader = ({ date }) => {
+const DayHeader = ({ date, event }) => {
   const [dateTitle, setDataTitle] = useState("");
   const formatDate = moment(date).format("MMMM DD YYYY");
   const getToday = moment(time).format("MMMM DD YYYY");
-  const [sortDate, setSortDate] = useState([]);
 
   const checkDate = () => {
     if (formatDate === getToday) {

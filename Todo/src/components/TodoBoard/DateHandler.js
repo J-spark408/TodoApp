@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import moment from "moment";
 
@@ -8,55 +8,92 @@ const DateOptionDiv = styled.div`
 `;
 
 const SelectBar = styled.select`
-  font-size: 16px;
-  line-height: 1;
-  margin-right: 26px;
+  appearance: none;
+  font-size: 1rem;
+  padding: 0.675em 6em 0.675em 1em;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+  margin-right: 0.5em;
 `;
 
-const daysOfWeek = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+const nameOfMonths = [
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
+];
+
+const monthsInEnum = {
+  January: 0,
+  February: 1,
+  March: 2,
+  April: 3,
+  May: 4,
+  June: 5,
+  July: 6,
+  August: 7,
+  September: 8,
+  October: 9,
+  November: 10,
+  December: 11,
+};
 
 const DateHandler = ({ setDate }) => {
-  const [selectedDate, setSelectedDate] = useState("");
+  const currentDate = new Date();
 
-  // Generate an array of date options
-  const generateDateOptions = () => {
-    const today = new Date();
-    const options = [];
+  const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
+  const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
+  const [currentDay, setCurrentDay] = useState(currentDate.getDate());
 
-    // Create options for the next 7 days
-    for (let i = 0; i < 20; i++) {
-      const date = new Date(today);
-      date.setDate(today.getDate() + i);
+  const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
+  const years = Array.from(
+    { length: 11 },
+    (_, i) => currentDate.getFullYear() + i
+  );
 
-      const formattedDate = date.toLocaleDateString("en-US", {
-        year: "numeric",
-        month: "long",
-        day: "numeric",
-      });
-
-      options.push(
-        <option key={i} value={formattedDate}>
-          {formattedDate}
-        </option>
-      );
-    }
-    return options;
-  };
-
-  const monthOption = daysOfWeek.map((day) => {
-    return <option key={day}>{day}</option>;
+  useEffect(() => {
+    setDate(`${currentYear}-${currentMonth + 1}-${currentDay}`);
   });
 
-  const handleChange = (date) => {
-    setSelectedDate(date);
-    setDate(moment(date).format("YYYY-MM-DD"));
-  };
-
   return (
-    <select value={selectedDate} onChange={(e) => handleChange(e.target.value)}>
-      <option value="">Select a date</option>
-      {generateDateOptions()}
-    </select>
+    <DateOptionDiv>
+      <SelectBar
+        value={monthsInEnum[currentMonth]}
+        onChange={(e) => setCurrentMonth(monthsInEnum[e.target.value])}
+      >
+        {nameOfMonths.map((month, index) => {
+          return <option key={index}>{month}</option>;
+        })}
+      </SelectBar>
+      <SelectBar
+        value={currentDay}
+        onChange={(e) => setCurrentDay(e.target.value)}
+      >
+        {[...Array(daysInMonth).keys()].map((day, id) => (
+          <option key={id}>{day + 1}</option>
+        ))}
+      </SelectBar>
+      <SelectBar onChange={(e) => setCurrentYear(e.target.value)}>
+        {years.map((year) => {
+          return (
+            <option key={year} value={year}>
+              {year}
+            </option>
+          );
+        })}
+      </SelectBar>
+    </DateOptionDiv>
   );
 };
 

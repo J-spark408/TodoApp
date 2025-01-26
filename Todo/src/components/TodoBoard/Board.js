@@ -15,8 +15,7 @@ const TodoDiv = styled.div`
   flex-direction: column;
   border-radius: 10px;
   padding: 25px;
-  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
-    rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
 `;
 
 const Board = () => {
