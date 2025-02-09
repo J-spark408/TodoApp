@@ -69,7 +69,7 @@ const DateHandler = ({ setDate }) => {
   return (
     <DateOptionDiv>
       <SelectBar
-        value={monthsInEnum[currentMonth]}
+        value={nameOfMonths[currentMonth]}
         onChange={(e) => setCurrentMonth(monthsInEnum[e.target.value])}
       >
         {nameOfMonths.map((month, index) => {

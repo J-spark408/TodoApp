@@ -20,6 +20,54 @@ const InputContainer = styled.div`
   flex-direction: column;
 `;
 
+const Input = styled.input`
+  appearance: none;
+  font-size: 1rem;
+  padding: 0.675em 6em 0.675em 1em;
+  background-color: #fff;
+  border: 1px solid #caced1;
+  border-radius: 0.25rem;
+  color: #000;
+  cursor: pointer;
+  margin-right: 0.5em;
+`;
+
+const SubmitButton = styled.button`
+  appearance: none;
+  background-color: #fafbfc;
+  border: 1px solid rgba(27, 31, 35, 0.15);
+  border-radius: 6px;
+  color: #24292e;
+  cursor: pointer;
+  display: inline-block;
+  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
+    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 20px;
+  padding: 6px 16px;
+
+  &:hover {
+    background-color: rgb(215, 215, 215);
+    text-decoration: none;
+    transition-duration: 0.1s;
+  }
+
+  &:active {
+    background-color: rgb(162, 162, 162);
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
+    transition: none 0s;
+  }
+`;
+
+const LoginLink = styled(Link)`
+  text-decoration: none;
+  color: black;
+  &:hover {
+    color: gray;
+  }
+`;
+
 function Signup() {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
@@ -87,7 +135,7 @@ function Signup() {
             <label htmlFor="name">
               <strong>Name</strong>
             </label>
-            <input
+            <Input
               type="text"
               placeholder="Enter Name"
               autoComplete="off"
@@ -99,7 +147,7 @@ function Signup() {
             <label htmlFor="email">
               <strong>Email</strong>
             </label>
-            <input
+            <Input
               type="text"
               placeholder="Enter Email"
               autoComplete="off"
@@ -111,7 +159,7 @@ function Signup() {
             <label htmlFor="password">
               <strong>Password</strong>
             </label>
-            <input
+            <Input
               type="password"
               placeholder="Enter Password"
               name="password"
@@ -119,10 +167,10 @@ function Signup() {
             />
           </InputContainer>
           {error && <p>{error}</p>}
-          <button type="submit">Sign Up</button>
+          <SubmitButton type="submit">Sign Up</SubmitButton>
         </form>
         <p>Already have an account?</p>
-        <Link to="/login">Login</Link>
+        <LoginLink to="/login">Login</LoginLink>
       </div>
     </Container>
   );
