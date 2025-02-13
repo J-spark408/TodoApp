@@ -19,6 +19,13 @@ const SelectBar = styled.select`
   margin-right: 0.5em;
 `;
 
+const SelectOption = styled.option`
+  overflow: hidden;
+  &:-webkit-scrollbar {
+    display: none;
+  }
+`;
+
 const nameOfMonths = [
   "January",
   "February",
@@ -73,7 +80,7 @@ const DateHandler = ({ setDate }) => {
         onChange={(e) => setCurrentMonth(monthsInEnum[e.target.value])}
       >
         {nameOfMonths.map((month, index) => {
-          return <option key={index}>{month}</option>;
+          return <SelectOption key={index}>{month}</SelectOption>;
         })}
       </SelectBar>
       <SelectBar
@@ -81,15 +88,15 @@ const DateHandler = ({ setDate }) => {
         onChange={(e) => setCurrentDay(e.target.value)}
       >
         {[...Array(daysInMonth).keys()].map((day, id) => (
-          <option key={id}>{day + 1}</option>
+          <SelectOption key={id}>{day + 1}</SelectOption>
         ))}
       </SelectBar>
       <SelectBar onChange={(e) => setCurrentYear(e.target.value)}>
         {years.map((year) => {
           return (
-            <option key={year} value={year}>
+            <SelectOption key={year} value={year}>
               {year}
-            </option>
+            </SelectOption>
           );
         })}
       </SelectBar>

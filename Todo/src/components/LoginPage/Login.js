@@ -6,6 +6,7 @@ import { validateEmail } from "../../../utils/helper";
 import axiosInstance from "../../../utils/axiosInstance";
 
 const Container = styled.div`
+  padding: 1em;
   margin: auto;
   width: 50%;
   height: 50%;

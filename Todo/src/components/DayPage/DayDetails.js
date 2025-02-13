@@ -5,28 +5,19 @@ import DayInfoHolder from "./DayInfoHolder";
 import moment from "moment";
 
 const Container = styled.div`
-  margin-left: 1em;
-  margin-bottom: 1em;
+  width: 80%;
+  padding: 0.1em;
+  margin-left: 0.5em;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
-    rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
-  background-image: linear-gradient(to bottom right, #fdfcfb, #e2d1c3);
+  border-radius: 1px;
+  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
 `;
 
-const EventContainer = styled.div`
-  margin: 1em;
-  width: 95%;
-  padding: 10px;
-  background: transparent;
-  box-shadow: rgba(0, 0, 0, 0.12) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+const NoUpcomingText = styled.p`
+  color: gray;
+  margin-left: 1em;
+  font-family: cursive;
 `;
-
-const TitleText = styled.p`
-  font-weight: bold;
-`;
-
-const DetailText = styled.p``;
 
 const DayDetails = ({ day }) => {
   const [getEvent, setGetEvent] = useState([]);
@@ -63,7 +54,7 @@ const DayDetails = ({ day }) => {
           />
         ))
       ) : (
-        <p>No Upcoming Event</p>
+        <NoUpcomingText>No Upcoming Event</NoUpcomingText>
       )}
     </Container>
   );

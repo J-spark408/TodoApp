@@ -110,7 +110,7 @@ const TodoInput = () => {
           type="text"
           placeholder="Add Title"
           onChange={(e) => {
-            setTitle(e.target.value);
+            setTitle(e.target.value.toUpperCase());
           }}
         />
       </PlaceLabelDiv>

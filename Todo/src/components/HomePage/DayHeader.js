@@ -7,6 +7,7 @@ const DayHeaderDiv = styled.div`
   font-size: 25px;
   font-weight: bold;
   padding: 25px;
+  font-family: system-ui;
 `;
 
 const DayHeader = ({ weeklyView, event }) => {

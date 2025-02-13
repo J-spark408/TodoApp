@@ -14,6 +14,7 @@ const OptionButton = styled.button`
   cursor: pointer;
   font-size: 20px;
   padding: 1em;
+  font-family: "Courier New", monospace;
   &:hover {
     font-size: 23px;
   }
@@ -23,7 +24,10 @@ const ViewOption = ({ weeklyView, setWeeklyView }) => {
   return (
     <ViewOptionDiv>
       <OptionButton
-        style={{ color: weeklyView === "Weekly" ? "salmon" : "black" }}
+        style={{
+          color: weeklyView === "Weekly" ? "salmon" : "black",
+          fontWeight: weeklyView === "Weekly" ? "bold" : "normal",
+        }}
         onClick={() => {
           setWeeklyView("Weekly");
         }}
@@ -31,12 +35,23 @@ const ViewOption = ({ weeklyView, setWeeklyView }) => {
         Weekly
       </OptionButton>
       <OptionButton
-        style={{ color: weeklyView === "SevenDays" ? "salmon" : "black" }}
+        style={{
+          color: weeklyView === "SevenDays" ? "salmon" : "black",
+          fontWeight: weeklyView === "SevenDays" ? "bold" : "normal",
+        }}
         onClick={() => {
           setWeeklyView("SevenDays");
         }}
       >
         7-Days
+      </OptionButton>
+      <OptionButton
+      // style={{ color: weeklyView === "Pinned" ? "salmon" : "black" }}
+      // onClick={() => {
+      //   setWeeklyView("Pinned");
+      // }}
+      >
+        Pinned
       </OptionButton>
     </ViewOptionDiv>
   );
