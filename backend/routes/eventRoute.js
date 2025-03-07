@@ -170,3 +170,126 @@ router.put(
 );
 
 module.exports = router;
+
+// router.post("/event/:year/:month/:day", authenticateToken, async (req, res) => {
+//   const { year, month, day } = req.params;
+//   const { title, content, tags } = req.body;
+//   const { user } = req.user;
+
+//   if (!title || !content) {
+//     return res.status(400).json({ error: true, message: "Title and content are required" });
+//   }
+
+//   const dateString = `${year}/${month}/${day}`;
+//   const EventModel = getEventModel(dateString);
+
+//   try {
+//     const event = new EventModel({
+//       title,
+//       content,
+//       tags: tags || [],
+//       userId: user._id,
+//       createdOn: new Date(`${year}-${month}-${day}`),
+//     });
+
+//     await event.save();
+
+//     return res.json({
+//       error: false,
+//       event,
+//       message: "Event added successfully",
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       error: true,
+//       message: "Internal Server Error",
+//     });
+//   }
+// });
+
+// router.get("/event/:year/:month/:day", authenticateToken, async (req, res) => {
+//   const { year, month, day } = req.params;
+//   const { user } = req.user;
+
+//   const dateString = `${year}/${month}/${day}`;
+//   const EventModel = getEventModel(dateString);
+
+//   try {
+//     const events = await EventModel.find({ userId: user._id }).sort({ isPinned: -1 });
+
+//     return res.json({
+//       error: false,
+//       events,
+//       message: "Events retrieved successfully",
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       error: true,
+//       message: "Internal Server Error",
+//     });
+//   }
+// });
+
+// router.put("/event/:year/:month/:day/:eventId", authenticateToken, async (req, res) => {
+//   const { year, month, day, eventId } = req.params;
+//   const { title, content, tags, isPinned } = req.body;
+//   const { user } = req.user;
+
+//   const dateString = `${year}/${month}/${day}`;
+//   const EventModel = getEventModel(dateString);
+
+//   try {
+//     const event = await EventModel.findOne({ _id: eventId, userId: user._id });
+
+//     if (!event) {
+//       return res.status(404).json({ error: true, message: "Event not found" });
+//     }
+
+//     if (title) event.title = title;
+//     if (content) event.content = content;
+//     if (tags) event.tags = tags;
+//     if (isPinned !== undefined) event.isPinned = isPinned;
+
+//     await event.save();
+
+//     return res.json({
+//       error: false,
+//       event,
+//       message: "Event updated successfully",
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       error: true,
+//       message: "Internal Server Error",
+//     });
+//   }
+// });
+
+// router.delete("/event/:year/:month/:day/:eventId", authenticateToken, async (req, res) => {
+//   const { year, month, day, eventId } = req.params;
+//   const { user } = req.user;
+
+//   const dateString = `${year}/${month}/${day}`;
+//   const EventModel = getEventModel(dateString);
+
+//   try {
+//     const event = await EventModel.findOne({ _id: eventId, userId: user._id });
+
+//     if (!event) {
+//       return res.status(404).json({ error: true, message: "Event not found" });
+//     }
+
+//     await EventModel.deleteOne({ _id: eventId });
+
+//     return res.json({
+//       error: false,
+//       message: "Event deleted successfully",
+//     });
+//   } catch (error) {
+//     return res.status(500).json({
+//       error: true,
+//       message: "Internal Server Error",
+//     });
+//   }
+// });
+

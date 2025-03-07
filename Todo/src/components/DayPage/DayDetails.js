@@ -1,43 +1,45 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styled from "styled-components";
-import axiosInstance from "../../../utils/axiosInstance";
 import DayInfoHolder from "./DayInfoHolder";
 import moment from "moment";
+import { MdEventBusy } from "react-icons/md"; // Icon for No Upcoming Events
 
 const Container = styled.div`
-  width: 80%;
-  padding: 0.1em;
-  margin-left: 0.5em;
-  background: #fff;
-  border-radius: 1px;
-  box-shadow: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+  width: 85%;
+  max-width: 800px;
+  background: linear-gradient(135deg, #ffffff 0%, #f3f3f3 100%);
+  border-radius: 12px;
+  padding: 20px;
+  margin: 20px auto;
+  box-shadow: rgba(0, 0, 0, 0.16) 0px 10px 36px 0px, rgba(0, 0, 0, 0.06) 0px 0px 0px 1px;
+  
 `;
 
-const NoUpcomingText = styled.p`
-  color: gray;
-  margin-left: 1em;
-  font-family: cursive;
+const Title = styled.h2`
+  font-size: 22px;
+  font-weight: bold;
+  text-align: center;
+  color: #00796b;
+  font-family: "Poppins", sans-serif;
+  margin-bottom: 12px;
 `;
 
-const DayDetails = ({ day }) => {
-  const [getEvent, setGetEvent] = useState([]);
-  const getAllEvents = async () => {
-    try {
-      const response = await axiosInstance.get("/event/get-events");
+const NoUpcomingContainer = styled.div`
+  text-align: center;
+  color: #888;
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  margin-top: 10px;
+  padding: 15px;
+`;
 
-      if (response.data && response.data.events) {
-        setGetEvent(response.data.events);
-      }
-    } catch (error) {
-      console.log("Unexpected error");
-    }
-  };
+const NoUpcomingIcon = styled(MdEventBusy)`
+  font-size: 40px;
+  color: #b0bec5;
+  margin-bottom: 8px;
+`;
 
-  useEffect(() => {
-    getAllEvents();
-    return () => {};
-  }, []);
-
+const DayDetails = ({ day, getEvent, refreshEvents }) => {
   const filteredEvents = getEvent.filter(
     (event) => day === moment(event.createdOn).format("MMMM DD, YYYY")
   );
@@ -48,13 +50,19 @@ const DayDetails = ({ day }) => {
         filteredEvents.map((event, index) => (
           <DayInfoHolder
             key={index}
+            event={event}
             title={event.title}
             content={event.content}
             tags={event.tags}
+            isPinned={event.isPinned}
+            refreshEvents={refreshEvents}
           />
         ))
       ) : (
-        <NoUpcomingText>No Upcoming Event</NoUpcomingText>
+        <NoUpcomingContainer>
+          <NoUpcomingIcon />
+          <p>No Upcoming Events</p>
+        </NoUpcomingContainer>
       )}
     </Container>
   );

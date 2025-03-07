@@ -1,46 +1,56 @@
-import React from "react";
-import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const DatesUL = styled.ul`
   list-style: none;
-  flex-wrap: wrap;
   display: flex;
-  text-align: start;
+  flex-wrap: wrap;
 `;
 
 const EmptySpace = styled.li`
   width: calc(100% / 7);
-  font-size: 1.07rem;
   position: relative;
 `;
 
 const DatesLink = styled(Link)`
   width: calc(100% / 7);
-  height: 65px;
-  margin-top: 1rem;
-  font-size: 1.07rem;
   color: #414141;
-  cursor: default;
+  cursor: pointer;
   font-weight: 500;
   position: relative;
-  z-index: 1;
-  cursor: pointer;
+  height: 75px;
   text-decoration: none;
+  border-radius: 5px;
+  transition: all 0.3s ease;
+
   &:hover {
+    background: #f1f1f1;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em,
-      rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em,
-      rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset;
+      rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em;
   }
+
   &.current-date {
-    background: #e0ffcd;
+    background:rgba(255, 179, 0, 0.87);
+    font-weight: bold;
   }
+  &.current-date:hover {
+    box-shadow: 0 0 10px 4px rgb(255, 174, 0);
+  }
+
   &:active {
+    background-color: rgba(247, 182, 85, 0.92);
     color: #fff;
   }
-  &:inactive {
-    color: #aaa;
+
+  /* Differentiate weekends */
+  &.weekend {
+    color: #ff6347;
+  }
+
+  &:focus {
+    outline: 2px solid #ff6600;
+    outline-offset: 2px;
   }
 `;
 
@@ -58,22 +68,29 @@ const Dates = ({
       {[...Array(firstDayOfMonth).keys()].map((_, index) => (
         <EmptySpace key={`empty-${index}`} />
       ))}
-      {[...Array(daysInMonth).keys()].map((day, id) => (
-        <DatesLink
-          //to={`/${props.currentMonth + 1}_${id + 1}_${props.currentYear}`}
-          to={`/events/${currentYear}/${currentMonth + 1}/${id + 1}`}
-          key={id + 1}
-          className={
-            day + 1 === currentDate.getDate() &&
-            currentMonth === currentDate.getMonth() &&
-            currentYear === currentDate.getFullYear()
-              ? `current-date`
-              : `${day + 1}`
-          }
-        >
-          {day + 1}
-        </DatesLink>
-      ))}
+
+      {[...Array(daysInMonth).keys()].map((day, id) => {
+        const date = day + 1;
+        const isCurrentDay =
+          date === currentDate.getDate() &&
+          currentMonth === currentDate.getMonth() &&
+          currentYear === currentDate.getFullYear();
+        const isWeekend = [0, 6].includes(
+          new Date(currentYear, currentMonth, date).getDay()
+        ); // 0 is Sunday, 6 is Saturday
+
+        return (
+          <DatesLink
+            to={`/event/${currentYear}-${currentMonth + 1}-${date}`}
+            key={id + 1}
+            className={`${isCurrentDay ? "current-date" : ""} ${
+              isWeekend ? "weekend" : ""
+            }`}
+          >
+            {date}
+          </DatesLink>
+        );
+      })}
     </DatesUL>
   );
 };

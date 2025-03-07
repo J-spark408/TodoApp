@@ -13,14 +13,14 @@ const DivNavigation = styled.div`
 `;
 
 const PNavigation = styled.p`
-  font-weight: 500;
+  font-weight: 600;
   font-size: 1.45rem;
 `;
 
 const SpanNavigation = styled.span`
   height: 38px;
   width: 38px;
-  margin: 0 1px;
+  margin: 0 10px;
   cursor: pointer;
   text-align: center;
   line-height: 38px;
@@ -32,7 +32,7 @@ const SpanNavigation = styled.span`
     margin-right: -10px;
   }
   &:hover {
-    background: #f2f2f2;
+    background:rgba(193, 190, 190, 0.69);
   }
 `;
 

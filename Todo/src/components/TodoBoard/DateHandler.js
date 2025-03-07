@@ -4,7 +4,7 @@ import moment from "moment";
 
 const DateOptionDiv = styled.div`
   display: flex;
-  flex-direction: row;
+  flex-wrap: wrap;
 `;
 
 const SelectBar = styled.select`
@@ -17,6 +17,7 @@ const SelectBar = styled.select`
   color: #000;
   cursor: pointer;
   margin-right: 0.5em;
+  width: auto;
 `;
 
 const SelectOption = styled.option`

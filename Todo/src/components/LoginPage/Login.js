@@ -1,77 +1,127 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { validateEmail } from "../../../utils/helper";
 import axiosInstance from "../../../utils/axiosInstance";
+import { FiEye, FiEyeOff } from "react-icons/fi"; // Import eye icons
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 99%;
+`;
 
 const Container = styled.div`
-  padding: 1em;
-  margin: auto;
-  width: 50%;
-  height: 50%;
   background: #fff;
-  border-radius: 10px;
-  box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
-    rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 400px;
+  text-align: center;
+`;
+
+const Title = styled.h2`
+  color: #ff5e62;
+  font-size: 2rem;
+  margin-bottom: 1rem;
 `;
 
 const InputContainer = styled.div`
   display: flex;
   flex-direction: column;
+  text-align: left;
+  margin-bottom: 1rem;
+  position: relative;
+`;
+
+const Label = styled.label`
+  font-weight: bold;
+  margin-bottom: 5px;
 `;
 
 const Input = styled.input`
-  appearance: none;
   font-size: 1rem;
-  padding: 0.675em 6em 0.675em 1em;
-  background-color: #fff;
-  border: 1px solid #caced1;
-  border-radius: 0.25rem;
-  color: #000;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  outline: none;
+  transition: 0.3s;
+  width: 100%;
+  padding-right: 40px; /* Space for eye icon */
+
+  &:focus {
+    border-color: #ff5e62;
+    box-shadow: 0 0 8px rgba(255, 94, 98, 0.3);
+    background: #fff;
+  }
+`;
+
+const PasswordWrapper = styled.div`
+  position: relative;
+  display: flex;
+  align-items: center;
+`;
+
+const ToggleIcon = styled.span`
+  position: absolute;
+  right: 10px;
   cursor: pointer;
-  margin-right: 0.5em;
+  color: #888;
+  transition: 0.3s;
+
+  &:hover {
+    color: #ff5e62;
+  }
 `;
 
 const SubmitButton = styled.button`
-  appearance: none;
-  background-color: #fafbfc;
-  border: 1px solid rgba(27, 31, 35, 0.15);
-  border-radius: 6px;
-  color: #24292e;
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: #ff5e62;
+  border: none;
+  border-radius: 8px;
   cursor: pointer;
-  display: inline-block;
-  font-family: -apple-system, system-ui, "Segoe UI", Helvetica, Arial,
-    sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
-  font-size: 14px;
-  font-weight: 500;
-  line-height: 20px;
-  padding: 6px 16px;
+  transition: 0.3s ease-in-out;
+  margin-top: 10px;
 
   &:hover {
-    background-color: rgb(215, 215, 215);
-    text-decoration: none;
-    transition-duration: 0.1s;
-  }
-
-  &:active {
-    background-color: rgb(162, 162, 162);
-    box-shadow: rgba(0, 0, 0, 0.16) 0px 1px 4px, rgb(51, 51, 51) 0px 0px 0px 3px;
-    transition: none 0s;
+    background: #ff3b4e;
+    box-shadow: 0 4px 8px rgba(255, 94, 98, 0.3);
   }
 `;
 
-const LoginLink = styled(Link)`
+const ErrorText = styled.p`
+  color: red;
+  font-weight: bold;
+  font-size: 0.9rem;
+  margin-top: 10px;
+`;
+
+const RegisterText = styled.p`
+  margin-top: 15px;
+  font-size: 0.9rem;
+`;
+
+const RegisterLink = styled(Link)`
   text-decoration: none;
-  color: black;
+  color: #ff5e62;
+  font-weight: bold;
+
   &:hover {
-    color: gray;
+    text-decoration: underline;
   }
 `;
 
-function Login() {
-  const [email, setEmail] = useState();
-  const [password, setPassword] = useState();
+const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
@@ -84,7 +134,7 @@ function Login() {
     }
 
     if (!password) {
-      setError("Please enter the password");
+      setError("Please enter your password");
       return;
     }
 
@@ -92,8 +142,8 @@ function Login() {
 
     try {
       const response = await axiosInstance.post("/user/login", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
 
       if (response.data && response.data.accessToken) {
@@ -102,56 +152,50 @@ function Login() {
         window.location.reload();
       }
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else {
-        setError("Unexpected error occured. Please try again");
-      }
+      setError(error.response?.data?.message || "Unexpected error occurred. Please try again.");
     }
   };
 
   return (
-    <Container>
-      <h2>
-        <center>Login</center>
-      </h2>
-      <InputContainer>
+    <Wrapper>
+      <Container>
+        <Title>Login</Title>
         <form onSubmit={handleSubmit}>
           <InputContainer>
-            <label htmlFor="email">
-              <strong>Email</strong>
-            </label>
+            <Label>Email</Label>
             <Input
-              type="text"
+              type="email"
               placeholder="Enter Email"
               autoComplete="off"
-              name="email"
               onChange={(e) => setEmail(e.target.value)}
             />
           </InputContainer>
+
           <InputContainer>
-            <label htmlFor="email">
-              <strong>Password</strong>
-            </label>
-            <Input
-              type="password"
-              placeholder="Enter Password"
-              name="password"
-              onChange={(e) => setPassword(e.target.value)}
-            />
+            <Label>Password</Label>
+            <PasswordWrapper>
+              <Input
+                type={showPassword ? "text" : "password"}
+                placeholder="Enter Password"
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <ToggleIcon onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              </ToggleIcon>
+            </PasswordWrapper>
           </InputContainer>
-          {error && <p>{error}</p>}
+
+          {error && <ErrorText>{error}</ErrorText>}
+
           <SubmitButton type="submit">Login</SubmitButton>
         </form>
-        <p>Don't have an account?</p>
-        <LoginLink to="/register">Sign Up</LoginLink>
-      </InputContainer>
-    </Container>
+
+        <RegisterText>
+          Don't have an account? <RegisterLink to="/register">Sign Up</RegisterLink>
+        </RegisterText>
+      </Container>
+    </Wrapper>
   );
-}
+};
 
 export default Login;

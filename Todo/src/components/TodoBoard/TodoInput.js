@@ -1,78 +1,106 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import TodoDefaultItem from "./TodoDefaultItem";
 import { useNavigate } from "react-router-dom";
 import axiosInstance from "../../../utils/axiosInstance";
 import DateHandler from "./DateHandler";
 import moment from "moment";
 
-const Container = styled.div``;
-
-const PlaceLabel = styled.label`
-  color: gray;
-`;
-
-const Button = styled.button`
-  width: 100%;
-  color: #bf4f74;
-  font-size: 1em;
-  margin-top: 0.5em;
-  padding: 0.25em 1em;
-  border: 2px solid #bf4f74;
-  border-radius: 3px;
-  &:hover {
-    cursor: pointer;
-    box-shadow: 0px 0px 2px 2px pink;
-  }
+const Container = styled.div`
+  max-width: 500px;
+  margin: 20px auto;
+  padding: 20px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
 `;
 
 const PlaceLabelDiv = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
-  margin-top: 1rem;
+  gap: 6px;
+  margin-bottom: 1rem;
+`;
+
+const PlaceLabel = styled.label`
+  font-weight: 600;
+  color: #555;
 `;
 
 const Input = styled.input`
-  font-size: 0.875rem;
-  line-height: 2rem;
-  color: rgb(2 6 23 / var(--tw-text-opacity, 1));
-  border: none;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity, 1));
+  font-size: 1rem;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  outline: none;
+  transition: 0.3s;
+
+  &:focus {
+    border-color:rgb(255, 153, 0);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    background: #fff;
+  }
 `;
 
 const TextArea = styled.textarea`
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  max-width: 100%;
-  min-width: 100%;
-  min-height: 56px;
-  color: rgb(2 6 23 / var(--tw-text-opacity, 1));
+  font-size: 1rem;
+  padding: 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  background: #f9f9f9;
+  outline: none;
+  resize: vertical;
+  min-height: 80px;
+  transition: 0.3s;
+
+  &:focus {
+    border-color: rgb(255, 153, 0);
+    box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
+    background: #fff;
+  }
+`;
+
+const Button = styled.button`
+  width: 100%;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: bold;
+  color: #fff;
+  background: rgb(255, 153, 0);
   border: none;
-  background-color: rgb(226 232 240 / var(--tw-bg-opacity, 1));
-  padding: 0.5rem;
-  border-radius: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+  margin-top: 10px;
+
+  &:hover {
+    background: rgba(255, 153, 0, 0.72);
+    box-shadow: 0 4px 8px rgba(0, 91, 187, 0.2);
+  }
 `;
 
 const ErrorText = styled.p`
   color: red;
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-align: center;
+  margin-top: 8px;
 `;
 
 const TodoInput = () => {
-  const currentDate = new Date();
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [date, setDate] = useState(moment(currentDate).format("YYYY-MM-DD"));
+  const [date, setDate] = useState(moment().format("YYYY-MM-DD"));
   const [error, setError] = useState(false);
   const navigate = useNavigate();
 
-  const handleAddEvent = async (e) => {
+  const handleAddEvent = async () => {
     if (!title) {
-      setError("Fill out the title");
+      setError("Please enter a title.");
       return;
     }
     if (!content) {
-      setError("Fill out the content");
+      setError("Please enter content.");
       return;
     }
 
@@ -80,25 +108,16 @@ const TodoInput = () => {
 
     try {
       const response = await axiosInstance.post("/event/new-event", {
-        title: title,
-        content: content,
+        title: title.toUpperCase(),
+        content,
         createdOn: date,
       });
 
       if (response.data && response.data.event) {
         navigate("/");
-        return;
       }
     } catch (error) {
-      if (
-        error.response &&
-        error.response.data &&
-        error.response.data.message
-      ) {
-        setError(error.response.data.message);
-      } else {
-        setError("Unexpected error occured. Please try again");
-      }
+      setError(error.response?.data?.message || "Unexpected error occurred. Please try again.");
     }
   };
 
@@ -108,33 +127,29 @@ const TodoInput = () => {
         <PlaceLabel>Title</PlaceLabel>
         <Input
           type="text"
-          placeholder="Add Title"
-          onChange={(e) => {
-            setTitle(e.target.value.toUpperCase());
-          }}
+          placeholder="Enter a title..."
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
         />
       </PlaceLabelDiv>
+      
       <PlaceLabelDiv>
         <PlaceLabel>Content</PlaceLabel>
         <TextArea
-          placeholder="Add Subject"
-          onChange={(e) => {
-            setContent(e.target.value);
-          }}
+          placeholder="Enter details..."
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
         />
       </PlaceLabelDiv>
+      
       <PlaceLabelDiv>
         <PlaceLabel>Choose Date</PlaceLabel>
         <DateHandler date={date} setDate={setDate} />
       </PlaceLabelDiv>
+
       {error && <ErrorText>{error}</ErrorText>}
-      <Button
-        onClick={() => {
-          handleAddEvent();
-        }}
-      >
-        Add Event
-      </Button>
+
+      <Button onClick={handleAddEvent}>Add Event</Button>
     </Container>
   );
 };

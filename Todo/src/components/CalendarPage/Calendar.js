@@ -9,6 +9,8 @@ const Container = styled.div`
   margin-left: 5em;
   background: #fff;
   height: auto;
+  width: 80%;
+  margin: auto;
   border-radius: 10px;
   box-shadow: rgba(136, 165, 191, 0.48) 6px 2px 16px 0px,
     rgba(255, 255, 255, 0.8) -6px -2px 16px 0px;

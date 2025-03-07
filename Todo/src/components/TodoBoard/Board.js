@@ -3,19 +3,18 @@ import styled from "styled-components";
 import TodoList from "./TodoList";
 import Header from "./Header";
 import TodoInput from "./TodoInput";
-import TodoDefaultItem from "./TodoDefaultItem";
 
-const BoardDiv = styled.div`
-  width: 70%;
-  margin: auto;
+const BoardWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
-const TodoDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-  border-radius: 10px;
-  padding: 25px;
-  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+const BoardContainer = styled.div`
+  background: rgba(255, 255, 255, 0.2);
+  border-radius: 2px;
+  padding: 30px;
+  box-shadow: rgba(255, 150, 100) 0px 0px 0px 3px;
 `;
 
 const Board = () => {
@@ -24,8 +23,8 @@ const Board = () => {
   const [duplicatedAlert, setDuplicatedAlert] = useState(false);
 
   return (
-    <BoardDiv>
-      <TodoDiv className="TodoBoard">
+    <BoardWrapper>
+      <BoardContainer>
         <Header />
         <TodoInput
           listOfTodos={listOfTodos}
@@ -34,9 +33,8 @@ const Board = () => {
           alert={duplicatedAlert}
           setAlert={setDuplicatedAlert}
         />
-      </TodoDiv>
-    </BoardDiv>
-    //{listOfTodos.length !== 0 ? props.setDefaultBoard(true) : undefined}
+      </BoardContainer>
+    </BoardWrapper>
   );
 };
 
