@@ -31,7 +31,7 @@ const DatesLink = styled(Link)`
   }
 
   &.current-date {
-    background:rgba(255, 179, 0, 0.87);
+    background: rgba(255, 179, 0, 0.87);
     font-weight: bold;
   }
   &.current-date:hover {
@@ -81,7 +81,7 @@ const Dates = ({
 
         return (
           <DatesLink
-            to={`/event/${currentYear}-${currentMonth + 1}-${date}`}
+            to={`/`}
             key={id + 1}
             className={`${isCurrentDay ? "current-date" : ""} ${
               isWeekend ? "weekend" : ""

@@ -61,7 +61,7 @@ const DayDetails = ({ day, getEvent, refreshEvents }) => {
       ) : (
         <NoUpcomingContainer>
           <NoUpcomingIcon />
-          <p>No Upcoming Events</p>
+          <p>No Events</p>
         </NoUpcomingContainer>
       )}
     </Container>
