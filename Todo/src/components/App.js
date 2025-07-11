@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Board from "./TodoBoard/Board";
 import NavHeader from "./NavBar/NavHeader";
@@ -8,6 +8,7 @@ import Login from "./LoginPage/Login";
 import Signup from "./LoginPage/SignUp";
 
 const App = () => {
+
   return (
     <BrowserRouter>
       <NavHeader />

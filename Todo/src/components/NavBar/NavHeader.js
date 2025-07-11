@@ -50,25 +50,19 @@ const NavHeader = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  //const { loggedIn } = useSelector((state) => state.user);
+  //const { user } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
       setLoggedIn(true);
     }
-  }, []);
+  }, [loggedIn]);
 
   const handleLogout = () => {
     localStorage.clear();
     setLoggedIn(false);
+    navigate("/");
     window.location.reload();
-  };
-
-  const handleAddEventClick = (e) => {
-    if (!loggedIn) {
-      e.preventDefault(); // Prevent navigation
-      navigate("/"); // Redirect to homepage
-    }
   };
 
   return (
@@ -81,8 +75,7 @@ const NavHeader = () => {
 
       <NavSelection
         title="Add event"
-        to="/add-new-event"
-        onClick={handleAddEventClick}
+        to={loggedIn ? "/add-new-event" : "/"}
       >
         <Icon>
           <IoCreate size={23} />

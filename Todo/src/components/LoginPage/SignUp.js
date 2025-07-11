@@ -133,7 +133,8 @@ const Signup = () => {
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState(null);
-  const [passwordError, setPasswordError] = useState(null); // New state for password error
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(null); 
   const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
@@ -162,6 +163,11 @@ const Signup = () => {
       setPasswordError(null);
     }
 
+    if (password !== confirmPassword) {
+      setError("Passwords do not match");
+      return;
+    }
+
     setError("");
 
     try {
@@ -178,7 +184,8 @@ const Signup = () => {
 
       if (response.data?.accessToken) {
         localStorage.setItem("token", response.data.accessToken);
-        navigate("/login");
+        navigate("/");
+        window.location.reload();
       }
     } catch (error) {
       setError(
@@ -220,6 +227,20 @@ const Signup = () => {
                 type={showPassword ? "text" : "password"}
                 placeholder="Enter Password"
                 onChange={(e) => setPassword(e.target.value)}
+              />
+              <ToggleIcon onClick={() => setShowPassword(!showPassword)}>
+                {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}
+              </ToggleIcon>
+            </PasswordWrapper>
+          </InputContainer>
+
+          <InputContainer>
+            <Label>Confirm Password</Label>
+            <PasswordWrapper>
+              <Input
+                type={showPassword ? "text" : "password"}
+                placeholder="Re-enter Password"
+                onChange={(e) => setConfirmPassword(e.target.value)}
               />
               <ToggleIcon onClick={() => setShowPassword(!showPassword)}>
                 {showPassword ? <FiEyeOff size={20} /> : <FiEye size={20} />}

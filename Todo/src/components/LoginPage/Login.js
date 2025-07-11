@@ -157,6 +157,7 @@ const Login = () => {
         setEmail("");
         setPassword("");
         navigate("/");
+        window.location.reload();
       } else {
         setInvalid("Access Deined. Invalid credentials");
       }
