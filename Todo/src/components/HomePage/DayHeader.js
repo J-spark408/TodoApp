@@ -109,12 +109,12 @@ const DayHeader = ({
   const formatDate = (date) => date.format("MMMM DD, YYYY");
 
   const renderDays = (days) =>
-    days.map((day, index) => (
+  days.map((day, index) => {
+    const isToday = day.isSame(moment(), "day");
+    return (
       <DayWrapper key={index}>
-        <DayTitle isToday={day.isSame(moment(), "day")}>
-          {day.isSame(moment(), "day")
-            ? "Today"
-            : `${formatDay(day)}, ${formatDate(day)}`}
+        <DayTitle>
+          {isToday ? "Today" : `${formatDay(day)}, ${formatDate(day)}`}
         </DayTitle>
         <DayDetails
           day={formatDate(day)}
@@ -122,7 +122,8 @@ const DayHeader = ({
           refreshEvents={refreshEvents}
         />
       </DayWrapper>
-    ));
+    );
+  });
 
   return (
     <HeaderContainer>
