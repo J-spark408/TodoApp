@@ -88,7 +88,12 @@ const WeekRange = styled.span`
   box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
 `;
 
-const DayHeader = ({ getEvent, refreshEvents, currentWeek, setCurrentWeek }) => {
+const DayHeader = ({
+  getEvent,
+  refreshEvents,
+  currentWeek,
+  setCurrentWeek,
+}) => {
   const WeeklyDays = Array.from({ length: 7 }, (_, i) =>
     currentWeek.clone().add(i, "days")
   );
@@ -124,7 +129,9 @@ const DayHeader = ({ getEvent, refreshEvents, currentWeek, setCurrentWeek }) => 
       <h2>Upcoming Events</h2>
       <NavigationButtons>
         <NavButton onClick={() => changeWeek(-1)}>⬅ Previous Week</NavButton>
-        <WeekRange>{startOfWeek} - {endOfWeek}</WeekRange>
+        <WeekRange>
+          {startOfWeek} - {endOfWeek}
+        </WeekRange>
         <NavButton onClick={() => changeWeek(1)}>Next Week ➡</NavButton>
       </NavigationButtons>
       {renderDays(WeeklyDays)}

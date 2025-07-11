@@ -3,7 +3,10 @@ import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { validateEmail } from "../../../utils/helper";
 import axiosInstance from "../../../utils/axiosInstance";
-import { FiEye, FiEyeOff } from "react-icons/fi"; // Import eye icons
+import { FiEye, FiEyeOff } from "react-icons/fi";
+import { loginUser } from "../../store/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import axios from "axios";
 
 const Wrapper = styled.div`
   display: flex;
@@ -122,38 +125,62 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [error, setError] = useState(null);
+  const [invalid, setInvalid] = useState(null);
+
+  const { loading, error } = useSelector((state) => state.user);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if (!validateEmail(email)) {
-      setError("Please enter a valid email address");
+      setInvalid("Please enter a valid email address");
       return;
     }
 
     if (!password) {
-      setError("Please enter your password");
+      setInvalid("Please enter your password");
       return;
     }
 
-    setError("");
+    setInvalid("");
 
-    try {
-      const response = await axiosInstance.post("/user/login", {
-        email,
-        password,
-      });
-
-      if (response.data && response.data.accessToken) {
-        localStorage.setItem("token", response.data.accessToken);
+    const userCredentials = {
+      email,
+      password,
+    };
+    dispatch(loginUser(userCredentials)).then((result) => {
+      if (result.payload) {
+        localStorage.setItem("token", result.payload.accessToken);
+        setEmail("");
+        setPassword("");
         navigate("/");
-        window.location.reload();
+      } else {
+        setInvalid("Access Deined. Invalid credentials");
       }
-    } catch (error) {
-      setError(error.response?.data?.message || "Unexpected error occurred. Please try again.");
-    }
+    });
+
+    // try {
+    //   const response = await axios.post("http://localhost:5051/user/login", {
+    //     email,
+    //     password,
+    //   });
+
+    //   if (response.data && response.data.accessToken) {
+    //     localStorage.setItem("token", response.data.accessToken);
+    //     //dispatch(response.data);
+    //     console.log(response.data);
+    //     navigate("/");
+    //     //window.location.reload();
+    //   }
+    // } catch (error) {
+    //   setError(
+    //     error.response?.data?.message ||
+    //       "Unexpected error occurred. Please try again."
+    //   );
+    // }
   };
 
   return (
@@ -185,13 +212,16 @@ const Login = () => {
             </PasswordWrapper>
           </InputContainer>
 
-          {error && <ErrorText>{error}</ErrorText>}
+          {invalid && <ErrorText>{invalid}</ErrorText>}
 
-          <SubmitButton type="submit">Login</SubmitButton>
+          <SubmitButton type="submit">
+            {loading ? "Loading..." : "Login"}
+          </SubmitButton>
         </form>
 
         <RegisterText>
-          Don't have an account? <RegisterLink to="/register">Sign Up</RegisterLink>
+          Don't have an account?{" "}
+          <RegisterLink to="/register">Sign Up</RegisterLink>
         </RegisterText>
       </Container>
     </Wrapper>

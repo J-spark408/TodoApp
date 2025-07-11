@@ -10,12 +10,12 @@ import Signup from "./LoginPage/SignUp";
 const App = () => {
   return (
     <BrowserRouter>
-        <NavHeader />
+      <NavHeader />
       <Routes>
-          <Route path="/" element={<HomePage />} />
-          {/* <Route path="/event/:createdOn" element={<DayInfoHolder />} /> */}
-          <Route path="/add-new-event" element={<Board />} />
-          <Route path="/calendar" element={<Calender />} />
+        <Route path="/" element={<HomePage />} />
+        {/* <Route path="/event/:createdOn" element={<DayInfoHolder />} /> */}
+        <Route path="/add-new-event" element={<Board />} />
+        <Route path="/calendar" element={<Calender />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Signup />} />
       </Routes>

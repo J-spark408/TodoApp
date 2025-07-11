@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { IoCreate, IoLogOut, IoLogIn } from "react-icons/io5";
 import { FaHome, FaRegCalendarAlt } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 // Styled components for the navbar
 const SideNav = styled.div`
@@ -48,6 +49,8 @@ const Icon = styled.div`
 const NavHeader = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const navigate = useNavigate();
+
+  //const { loggedIn } = useSelector((state) => state.user);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -95,7 +98,7 @@ const NavHeader = () => {
       <NavSelection
         title={loggedIn ? "Logout" : "Login"}
         className="end"
-        to="/login"
+        to={loggedIn ? "/" : "/login"}
         onClick={() => loggedIn && handleLogout()}
       >
         <Icon>{loggedIn ? <IoLogOut size={23} /> : <IoLogIn size={23} />}</Icon>
