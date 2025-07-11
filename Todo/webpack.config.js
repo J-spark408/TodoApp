@@ -1,10 +1,15 @@
 const path = require("path");
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, "src/index.html"),
+    }),
+    new webpack.IgnorePlugin({
+      resourceRegExp: /^\.\/locale$/,
+      contextRegExp: /moment$/, 
     }),
   ],
   module: {
@@ -23,6 +28,11 @@ module.exports = {
   devServer: {
     historyApiFallback: true,
   },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+    },
+}
 };
 
 // module.exports = {
