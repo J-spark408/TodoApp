@@ -4,6 +4,7 @@ import DayHeader from "../HomePage/DayHeader";
 import axiosInstance from "../../../utils/axiosInstance";
 import moment from "moment";
 import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   margin-left: 5em;
@@ -86,7 +87,7 @@ const HomePage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [getEvent, setGetEvent] = useState([]);
   const [currentWeek, setCurrentWeek] = useState(moment().startOf("week"));
-
+  const navigate = useNavigate();
   //const { loggedIn } = useSelector((state) => state.user);
 
   useEffect(() => {
@@ -123,7 +124,7 @@ const HomePage = () => {
             setCurrentWeek={setCurrentWeek}
           />
           <AddNewEventBtn
-            onClick={() => (window.location.href = "/add-new-event")}
+            onClick={() => navigate("/add-new-event")}
           >
             Add Event
           </AddNewEventBtn>
