@@ -113,6 +113,10 @@ const HomePage = () => {
     getAllEvents();
   }, [currentWeek]);
 
+  const handleClick = () => {
+    navigate("/add-new-event")
+  }
+
   return (
     <Container className="DetailContainer">
       {loggedIn ? (
@@ -124,7 +128,7 @@ const HomePage = () => {
             setCurrentWeek={setCurrentWeek}
           />
           <AddNewEventBtn
-            onClick={() => navigate("/add-new-event")}
+            onClick={(handleClick)}
           >
             Add Event
           </AddNewEventBtn>
