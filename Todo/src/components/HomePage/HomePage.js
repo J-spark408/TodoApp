@@ -119,7 +119,7 @@ const HomePage = () => {
             setCurrentWeek={setCurrentWeek}
           />
           <AddNewEventBtn
-            onClick={navigate("/add-new-event")}
+            onClick={() => navigate("/add-new-event")}
           >
             Add Event
           </AddNewEventBtn>
@@ -131,7 +131,7 @@ const HomePage = () => {
             Organize and track your events effortlessly. Stay on top of your
             schedule and manage tasks with ease.
           </Description>
-          <Button onClick={navigate("/login")}>
+          <Button onClick={() => navigate("/login")}>
             Get Started
           </Button>
         </InfoContainer>
