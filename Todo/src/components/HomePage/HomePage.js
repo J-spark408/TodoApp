@@ -108,10 +108,6 @@ const HomePage = () => {
     }
   }, []);
 
-  const handleClick = () => {
-    navigate("/add-new-event")
-  }
-
   return (
     <Container className="DetailContainer">
       {loggedIn ? (
@@ -123,7 +119,7 @@ const HomePage = () => {
             setCurrentWeek={setCurrentWeek}
           />
           <AddNewEventBtn
-            onClick={(handleClick)}
+            onClick={navigate("/add-new-event")}
           >
             Add Event
           </AddNewEventBtn>
@@ -135,7 +131,7 @@ const HomePage = () => {
             Organize and track your events effortlessly. Stay on top of your
             schedule and manage tasks with ease.
           </Description>
-          <Button onClick={() => (window.location.href = "/login")}>
+          <Button onClick={navigate("/login")}>
             Get Started
           </Button>
         </InfoContainer>
