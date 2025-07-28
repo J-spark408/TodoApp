@@ -90,28 +90,23 @@ const HomePage = () => {
   const navigate = useNavigate();
   //const { loggedIn } = useSelector((state) => state.user);
 
-  useEffect(() => {
-    if (localStorage.getItem("token")) {
-      setLoggedIn(true);
-    }
-  }, []);
-
   const getAllEvents = async () => {
-    if (loggedIn) {
-      try {
-        const response = await axiosInstance.get("/event/get-events");
-        if (response.data && response.data.events) {
-          setGetEvent(response.data.events);
-        }
-      } catch (error) {
-        console.log("Unexpected error");
+    try {
+      const response = await axiosInstance.get("/event/get-events");
+      if (response.data && response.data.events) {
+        setGetEvent(response.data.events);
       }
+    } catch (error) {
+      console.log("Unexpected error");
     }
   };
 
   useEffect(() => {
-    getAllEvents();
-  }, [currentWeek]);
+    if (localStorage.getItem("token")) {
+      setLoggedIn(true);
+      getAllEvents();
+    }
+  }, []);
 
   const handleClick = () => {
     navigate("/add-new-event")
