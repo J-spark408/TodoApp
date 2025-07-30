@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --mode=development",
+    "start-client": "webpack-dev-server --mode=development",
+    "start-server": "cd backend && npm start",
+    "start": "concurrently \"npm run start-client\" \"npm run start-server\"",
     "build": "webpack --mode=production",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
