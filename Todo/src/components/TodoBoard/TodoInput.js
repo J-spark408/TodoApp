@@ -36,7 +36,7 @@ const Input = styled.input`
   transition: 0.3s;
 
   &:focus {
-    border-color:rgb(255, 153, 0);
+    border-color: rgb(255, 153, 0);
     box-shadow: 0 0 8px rgba(0, 123, 255, 0.2);
     background: #fff;
   }
@@ -117,7 +117,10 @@ const TodoInput = () => {
         navigate("/");
       }
     } catch (error) {
-      setError(error.response?.data?.message || "Unexpected error occurred. Please try again.");
+      setError(
+        error.response?.data?.message ||
+          "Unexpected error occurred. Please try again."
+      );
     }
   };
 
@@ -132,7 +135,7 @@ const TodoInput = () => {
           onChange={(e) => setTitle(e.target.value)}
         />
       </PlaceLabelDiv>
-      
+
       <PlaceLabelDiv>
         <PlaceLabel>Content</PlaceLabel>
         <TextArea
@@ -141,7 +144,7 @@ const TodoInput = () => {
           onChange={(e) => setContent(e.target.value)}
         />
       </PlaceLabelDiv>
-      
+
       <PlaceLabelDiv>
         <PlaceLabel>Choose Date</PlaceLabel>
         <DateHandler date={date} setDate={setDate} />

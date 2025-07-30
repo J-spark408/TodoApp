@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Board from "./TodoBoard/Board";
 import NavHeader from "./NavBar/NavHeader";
@@ -10,7 +10,7 @@ import Signup from "./LoginPage/SignUp";
 const App = () => {
 
   return (
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_relativeSplatPath: true, v7_startTransition: true}}>
       <NavHeader />
       <Routes>
         <Route path="/" element={<HomePage />} />

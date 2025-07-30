@@ -5,6 +5,7 @@ import axiosInstance from "../../../utils/axiosInstance";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import TodoModal from "../TodoBoard/TodoModal";
 
 const Container = styled.div`
   margin-left: 5em;
@@ -87,6 +88,7 @@ const HomePage = () => {
   const [loggedIn, setLoggedIn] = useState(false);
   const [getEvent, setGetEvent] = useState([]);
   const [currentWeek, setCurrentWeek] = useState(moment().startOf("week"));
+  const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   //const { loggedIn } = useSelector((state) => state.user);
 
@@ -117,10 +119,10 @@ const HomePage = () => {
             refreshEvents={getAllEvents}
             currentWeek={currentWeek}
             setCurrentWeek={setCurrentWeek}
+            showModal={showModal}
+            setShowModal={setShowModal}
           />
-          <AddNewEventBtn
-            onClick={() => navigate("/add-new-event")}
-          >
+          <AddNewEventBtn onClick={() => setShowModal(true)}>
             Add Event
           </AddNewEventBtn>
         </>
@@ -131,10 +133,26 @@ const HomePage = () => {
             Organize and track your events effortlessly. Stay on top of your
             schedule and manage tasks with ease.
           </Description>
-          <Button onClick={() => navigate("/login")}>
-            Get Started
-          </Button>
+          <Button onClick={() => navigate("/login")}>Get Started</Button>
         </InfoContainer>
+      )}
+      {showModal && (
+        <TodoModal
+          mode="create"
+          shouldCloseOnOverlayClick={false}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          initialValues={{
+            id: getEvent._id,
+            title: getEvent.title,
+            content: getEvent.content,
+            event_date: getEvent.createdOn,
+          }}
+          onSuccess={() => {
+            setShowModal(false);
+            getAllEvents();
+          }}
+        />
       )}
     </Container>
   );

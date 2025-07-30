@@ -41,7 +41,7 @@ const NoUpcomingIcon = styled(MdEventBusy)`
 
 const DayDetails = ({ day, getEvent, refreshEvents }) => {
   const filteredEvents = getEvent.filter(
-    (event) => day === moment(event.createdOn).format("MMMM DD, YYYY")
+    (event) => day === moment(event.createdOn).format("MMMM DD, YYYY"),
   );
 
   return (
@@ -54,6 +54,7 @@ const DayDetails = ({ day, getEvent, refreshEvents }) => {
             title={event.title}
             content={event.content}
             tags={event.tags}
+            event_date={event.createdOn}
             isPinned={event.isPinned}
             refreshEvents={refreshEvents}
           />

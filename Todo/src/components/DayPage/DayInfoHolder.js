@@ -4,6 +4,8 @@ import { TbPinned, TbPinnedFilled } from "react-icons/tb";
 import { RiFileEditLine, RiFileEditFill } from "react-icons/ri";
 import { MdDeleteOutline, MdDelete } from "react-icons/md";
 import axiosInstance from "../../../utils/axiosInstance";
+import TodoModal from "../TodoBoard/TodoModal";
+import moment from "moment";
 
 const Container = styled.div`
   background: #ffffff;
@@ -80,6 +82,10 @@ const IconButton = styled.button`
   transition: transform 0.2s ease-in-out;
   color: ${({ color }) => color || "#555"};
 
+  &.close-icon {
+    float: right;
+  }
+
   &:hover {
     transform: scale(1.2);
   }
@@ -92,9 +98,11 @@ const DayInfoHolder = ({
   content,
   tags,
   isPinned,
+  event_date,
 }) => {
   const [editHovered, setEditHovered] = useState(false);
   const [deleteHovered, setDeleteHovered] = useState(false);
+  const [showModal, setShowModal] = useState(false);
 
   const deleteEvent = async () => {
     try {
@@ -155,6 +163,7 @@ const DayInfoHolder = ({
       <ButtonGroup>
         <IconButton
           title="Edit"
+          onClick={() => setShowModal(true)}
           onMouseEnter={() => setEditHovered(true)}
           onMouseLeave={() => setEditHovered(false)}
           color="#1976d2"
@@ -171,6 +180,25 @@ const DayInfoHolder = ({
           {deleteHovered ? <MdDelete /> : <MdDeleteOutline />}
         </IconButton>
       </ButtonGroup>
+
+      {showModal && (
+        <TodoModal
+          mode="edit"
+          shouldCloseOnOverlayClick={false}
+          showModal={showModal}
+          setShowModal={setShowModal}
+          initialValues={{
+            id: event._id,
+            title,
+            content,
+            event_date,
+          }}
+          onSuccess={() => {
+            setShowModal(false);
+            refreshEvents();
+          }}
+        />
+      )}
     </Container>
   );
 };

@@ -57,9 +57,11 @@ const monthsInEnum = {
   December: 11,
 };
 
-const DateHandler = ({ setDate }) => {
-  const currentDate = new Date();
+const DateHandler = ({ setDate, date, isEdit }) => {
+  const updateDate = new Date(date);
+  const [editDay, setEditDay] = useState(updateDate.getDate());
 
+  const currentDate = new Date();
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentDay, setCurrentDay] = useState(currentDate.getDate());
@@ -71,7 +73,11 @@ const DateHandler = ({ setDate }) => {
   );
 
   useEffect(() => {
-    setDate(`${currentYear}-${currentMonth + 1}-${currentDay}`);
+    if (isEdit) {
+      setDate(`${currentYear}-${currentMonth + 1}-${editDay}`);
+    } else {
+      setDate(`${currentYear}-${currentMonth + 1}-${currentDay}`);
+    }
   });
 
   return (
@@ -85,8 +91,10 @@ const DateHandler = ({ setDate }) => {
         })}
       </SelectBar>
       <SelectBar
-        value={currentDay}
-        onChange={(e) => setCurrentDay(e.target.value)}
+        value={isEdit ? editDay : currentDay}
+        onChange={(e) => {
+          isEdit ? setEditDay(e.target.value) : setCurrentDay(e.target.value);
+        }}
       >
         {[...Array(daysInMonth).keys()].map((day, id) => (
           <SelectOption key={id}>{day + 1}</SelectOption>
